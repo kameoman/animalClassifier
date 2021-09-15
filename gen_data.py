@@ -27,3 +27,7 @@ for index, classlabel in enumerate(classes):
 X = np.array(X)
 Y = np.array(Y)
 
+# それぞれのデータをテストと学習に分けて保存する
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X,Y)
+xy = (X_train, X_test, y_train, y_test)
+np.save("./animal.npy",xy)
