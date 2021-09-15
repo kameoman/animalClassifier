@@ -8,7 +8,7 @@ classes = ["monkey","boar","crow"]
 num_classes = len(classes)
 image_size = 50
 
-# 画像読込
+# 画像を読み込んで扱いやすいように配列（数値等に変換）
 
 X = []
 Y = []
