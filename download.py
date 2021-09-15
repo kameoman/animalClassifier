@@ -28,4 +28,12 @@ result = flickr.photos.search(
 )
 
 photos = result['photos']
-pprint(photos)
+# pprint(photos)
+for i, photo in enumerate(photos['photo']):
+  url_q = photo['url_q']
+  filepath = savedir + '/' + photo['id'] + '.jpg'
+  # 重複が無いように確認が必要(存在時飛ばす)
+  if os.path.exists(filepath): continue
+  urlretrieve(url_q,filepath)
+  # アクセスの連続でAPIのエラーを防ぐため待機時間を作る
+  time.sleep(wait_time)
