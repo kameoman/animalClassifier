@@ -9,7 +9,7 @@ num_classes = len(classes)
 image_size = 50
 
 # モデルの作成
-def main():
+def main(X,y):
   X_train, X_test, y_train, y_test = np.load("./animal.npy")
   # データを256の範囲から、0~1に正規化し精度を上げる
   X_train = X_train.astype("float") / 256
@@ -62,3 +62,10 @@ def model_train():
   # 正解と推定値がどれだけ離れているかを確認する
   model.compile(loss='categorical_crossentropy',
                 optimaizer=opt,metrics=['accuracy'])
+
+  # モデル作成のテスト回数
+  model.fit(X, y, batch_size=32, nb_epoch=100)
+
+  # モデル（分類器）の保存
+  model.save('./animal_cnn.h5')
+
