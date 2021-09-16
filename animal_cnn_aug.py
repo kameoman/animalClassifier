@@ -12,7 +12,7 @@ image_size = 50
 
 # モデルの作成
 def main():
-  X_train, X_test, y_train, y_test = np.load("./animal_aug.npy")
+  X_train, X_test, y_train, y_test = np.load("./animal_aug.npy",allow_pickle=True)
   # データを256の範囲から、0~1に正規化し精度を上げる
   X_train = X_train.astype("float") / 256
   X_test = X_test.astype("float") / 256
@@ -66,10 +66,10 @@ def model_train(X, y):
   model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
   # モデル作成のテスト回数
-  model.fit(X, y, batch_size=32, epochs=200)
+  model.fit(X, y, batch_size=32, epochs=100)
 
   # モデル（分類器）の保存
-  model.save('./animal_cnn.h5')
+  model.save('./animal_cnn_aug.h5')
 
   return model
 
