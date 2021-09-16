@@ -2,7 +2,9 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPool2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.utils import np_utils
+import keras
 import numpy as np
+import tensorflow
 
 classes = ["monkey","boar","crow"]
 num_classes = len(classes)
@@ -10,7 +12,7 @@ image_size = 50
 
 # モデルの作成
 def main():
-  X_train, X_test, y_train, y_test = np.load("./animal.npy")
+  X_train, X_test, y_train, y_test = np.load("./animal.npy",allow_pickle=True)
   # データを256の範囲から、0~1に正規化し精度を上げる
   X_train = X_train.astype("float") / 256
   X_test = X_test.astype("float") / 256
@@ -57,14 +59,14 @@ def model_train(X, y):
   model.add(Activation('softmax'))
 
   # 最適化
-  opt = keras.optimizers.rmsprop(lr=0.001, decay=1e-6)
-
+  # opt = keras.optimizers.RMSprop(lr=0.001, decay=1e-6)
+  opt = tensorflow.keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
+  # opt = tensorflow.keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
   # 正解と推定値がどれだけ離れているかを確認する
-  model.compile(loss='categorical_crossentropy',
-                optimaizer=opt,metrics=['accuracy'])
+  model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
   # モデル作成のテスト回数
-  model.fit(X, y, batch_size=32, nb_epoch=100)
+  model.fit(X, y, batch_size=32, epochs=100)
 
   # モデル（分類器）の保存
   model.save('./animal_cnn.h5')
