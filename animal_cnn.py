@@ -69,3 +69,12 @@ def model_train():
   # モデル（分類器）の保存
   model.save('./animal_cnn.h5')
 
+  return model
+
+def model_eval(model,X, y):
+  scores = model.evaluate(X, y, verbose=1)
+  print('Test Loss:', scores[0])
+  print('Test Accuracy:', scores[1])
+
+if __name__ == "__main__":
+  main()
