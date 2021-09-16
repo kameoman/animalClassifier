@@ -9,7 +9,7 @@ num_classes = len(classes)
 image_size = 50
 
 # モデルの作成
-def main(X,y):
+def main():
   X_train, X_test, y_train, y_test = np.load("./animal.npy")
   # データを256の範囲から、0~1に正規化し精度を上げる
   X_train = X_train.astype("float") / 256
@@ -23,9 +23,9 @@ def main(X,y):
   # モデル（分類器）の評価（テストする）
   model_eval(model, X_test, y_test)
 
-def model_train():
+def model_train(X, y):
   model = Sequential()
-  model.add(Conv2D(32,(3,3), padding='same',input_shape=X_train.shape[1:]))
+  model.add(Conv2D(32,(3,3), padding='same',input_shape=X.shape[1:]))
   # 正しいところのみを通す
   model.add(Activation('relu'))
   model.add(Conv2D(32,(3,3)))
@@ -71,7 +71,7 @@ def model_train():
 
   return model
 
-def model_eval(model,X, y):
+def model_eval(model, X, y):
   scores = model.evaluate(X, y, verbose=1)
   print('Test Loss:', scores[0])
   print('Test Accuracy:', scores[1])
