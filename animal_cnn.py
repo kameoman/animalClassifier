@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Convolution2D, MaxPool2D
+from keras.layers import Conv2D, MaxPool2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.utils import np_utils
 import numpy as np
@@ -22,3 +22,43 @@ def main():
   model = model_train(X_train, y_train)
   # モデル（分類器）の評価（テストする）
   model_eval(model, X_test, y_test)
+
+def model_train():
+  model = Sequential()
+  model.add(Conv2D(32,(3,3), padding='same',input_shape=X_train.shape[1:]))
+  # 正しいところのみを通す
+  model.add(Activation('relu'))
+  model.add(Conv2D(32,(3,3)))
+  model.add(Activation('relu'))
+  # 一番大きい値を取り出す(最大値を取り出し特徴を際立たせる)
+  model.add(MaxPool2D(pool_size=(2,2)))
+  # 25%を消してデータの方よりを減らす
+  model.add(Dropout(0.25))
+
+  model.add(Conv2D(64,(3,3), padding='same'))
+  model.add(Activation('relu'))
+  model.add(Conv2D(64,(3,3)))
+  model.add(Activation('relu'))
+    # 一番大きい値を取り出す(最大値を取り出し特徴を際立たせる)
+  model.add(MaxPool2D(pool_size=(2,2)))
+  # 25%を消してデータの方よりを減らす
+  model.add(Dropout(0.25))
+
+  # 1列に並べる
+  model.add(Flatten())
+  # 連結する
+  model.add(Dense(512))
+  model.add(Activation('relu'))
+  model.add(Dropout(0.5))
+
+  # 最後の出力をどうしたいか（3個に分けるため３）
+  model.add(Dense(3))
+  # 一致しているか確率を出力する。
+  model.add(Activation('softmax'))
+
+  # 最適化
+  opt = keras.optimizers.rmsprop(lr=0.001, decay=1e-6)
+
+  # 正解と推定値がどれだけ離れているかを確認する
+  model.compile(loss='categorical_crossentropy',
+                optimaizer=opt,metrics=['accuracy'])
