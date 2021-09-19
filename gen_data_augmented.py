@@ -29,9 +29,6 @@ for index, classlabel in enumerate(classes):
             x_test.append(data)
             Y_test.append(index)
         else:
-            x_train.append(data)
-            Y_train.append(index)
-
             for angle in range(-20,20,5):
                 # 画像を回転させてデータ量を増やす
                 img_r = image.rotate(angle)
