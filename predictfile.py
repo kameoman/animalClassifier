@@ -52,6 +52,12 @@ def upload_file():
             X.append(data)
             X = np.array(X)
 
+            result = model.predict([X])[0]
+            # 一番大きい推定値を出すargmaxを使用
+            predicted = result.argmax()
+            # %で考える
+            percentage = int(result[predicted]*100)
+            return "ラベル:" + classes[predicted]+ ":" + str(percentage) + " %"
 
 
 
