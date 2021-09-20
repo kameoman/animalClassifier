@@ -1,11 +1,12 @@
 from keras.models import Sequential,load_model
 from keras.layers import Conv2D, MaxPool2D
 from keras.layers import Activation, Dropout, Flatten, Dense
-from keras.saving.save import load_model
 from keras.utils import np_utils
 import keras, sys
 import numpy as np
 from PIL import Image
+import tensorflow
+
 
 classes = ["monkey","boar","crow"]
 num_classes = len(classes)
@@ -44,7 +45,8 @@ def build_model():
   # 一致しているか確率を出力する。
   model.add(Activation('softmax'))
   
-  opt = keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
+  # opt = keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
+  opt = tensorflow.keras.optimizers.RMSprop(lr=0.0001, decay=1e-6)
 
   model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
@@ -65,7 +67,7 @@ def main():
   X = []
   X.append(data)
   X = np.array(X)
-  model = build_model
+  model = build_model()
 
   # predictで予測結果を示す
   result = model.predict([X])[0]

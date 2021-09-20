@@ -66,7 +66,7 @@ def model_train(X, y):
   model.compile(loss='categorical_crossentropy',optimizer=opt,metrics=['accuracy'])
 
   # モデル作成のテスト回数
-  model.fit(X, y, batch_size=32, epochs=100)
+  model.fit(X, y, batch_size=32, epochs=200)
 
   # モデル（分類器）の保存
   model.save('./animal_cnn_aug.h5')
