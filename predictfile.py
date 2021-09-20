@@ -58,11 +58,6 @@ def upload_file():
             # %で考える
             percentage = int(result[predicted]*100)
             return "ラベル:" + classes[predicted]+ ":" + str(percentage) + " %"
-
-
-
-
-
             # return redirect(url_for('uploaded_file', filename=filename))
     return '''
     <!doctype html>
@@ -75,6 +70,7 @@ def upload_file():
       <p><input type=file name=file>
       <input type=submit value=Upload>
     </form>
+    <div>判定後</div>
     </body>
     </html>
     '''
